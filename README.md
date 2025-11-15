@@ -2,7 +2,7 @@
 
 ### Overview:
 
-This application was created to help users find doable recipes based on ingredients on-hand. This is the final project for CSCI 331 - Web Development.
+This application was created to help users find doable recipes based on available ingredients on-hand. This is the final project for CSCI 331 - Web Development.
 
 ### Technology Stack:
 
