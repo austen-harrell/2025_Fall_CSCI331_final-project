@@ -26,6 +26,7 @@ export const actions: Actions = {
       }
 
       // Set session cookie
+      const isProd = process.env.NODE_ENV === 'production';
       cookies.set('session', JSON.stringify({ 
         userId: user.id, 
         email: user.email,
@@ -33,7 +34,7 @@ export const actions: Actions = {
       }), {
         path: '/',
         httpOnly: true,
-        secure: false,
+        secure: isProd,
         sameSite: 'lax',
         maxAge: 60 * 60 * 24 * 7 // 7 days
       });
@@ -55,14 +56,14 @@ export const actions: Actions = {
   guest: async ({ cookies }) => {
     try {
       const sessionId = createGuestSession();
-      
+      const isProd = process.env.NODE_ENV === 'production';
       cookies.set('session', JSON.stringify({
         sessionId,
         type: 'guest'
       }), {
         path: '/',
         httpOnly: true,
-        secure: false,
+        secure: isProd,
         sameSite: 'lax',
         maxAge: 60 * 60 * 24 * 7 // 7 days
       });

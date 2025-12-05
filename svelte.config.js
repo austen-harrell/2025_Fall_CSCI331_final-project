@@ -15,9 +15,8 @@ const config = {
 			precompress: true
 		}),
 		csrf: {
-			// In a single-origin deployment (same host/port), containerized locally,
-			// we can relax origin checks to avoid false positives during POST actions.
-			checkOrigin: false
+			// Enable strict origin checks in production behind HTTPS.
+			checkOrigin: process.env.NODE_ENV === 'production'
 		}
 	}
 };
