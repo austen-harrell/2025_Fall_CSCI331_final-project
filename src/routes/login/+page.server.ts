@@ -3,7 +3,6 @@ import { authenticateUser, createGuestSession } from '$lib/auth.js';
 import type { Actions } from './$types';
 
 export const actions: Actions = {
-  // Named login action
   login: async ({ request, cookies }) => {
     const data = await request.formData();
     const email = data.get('email') as string;
@@ -34,16 +33,14 @@ export const actions: Actions = {
       }), {
         path: '/',
         httpOnly: true,
-        secure: false, // Set to true in production with HTTPS or behind a proxy that terminates TLS
+        secure: false,
         sameSite: 'lax',
         maxAge: 60 * 60 * 24 * 7 // 7 days
       });
 
-      // Redirect to dashboard or home page
       throw redirect(302, '/dashboard');
       
     } catch (error: unknown) {
-      // Re-throw SvelteKit redirects
       if (error && typeof error === 'object' && 'status' in error) {
         const status = (error as { status: number }).status;
         if (status >= 300 && status < 400) {
@@ -57,22 +54,19 @@ export const actions: Actions = {
   // Guest login action
   guest: async ({ cookies }) => {
     try {
-      // Create guest session
       const sessionId = createGuestSession();
       
-      // Set guest session cookie
       cookies.set('session', JSON.stringify({
         sessionId,
         type: 'guest'
       }), {
         path: '/',
         httpOnly: true,
-        secure: false, // Set to true in production with HTTPS or behind a proxy that terminates TLS
+        secure: false,
         sameSite: 'lax',
         maxAge: 60 * 60 * 24 * 7 // 7 days
       });
 
-      // Redirect to dashboard or home page
       throw redirect(302, '/dashboard');
       
     } catch (error: unknown) {

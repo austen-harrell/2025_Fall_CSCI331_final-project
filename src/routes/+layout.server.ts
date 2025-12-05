@@ -36,7 +36,6 @@ export const load: LayoutServerLoad = async ({ cookies }) => {
   } catch {
     // ignore malformed cookies
   }
-  // fallback: clear invalid session
   cookies.delete('session', { path: '/' });
   return { user: null };
 };

@@ -6,7 +6,6 @@ export const actions: Actions = {
   default: async ({ cookies }) => {
     const sessionCookie = cookies.get('session');
     
-    // If there's a session, try to clean it up
     if (sessionCookie) {
       try {
         const session = JSON.parse(sessionCookie);
@@ -14,7 +13,6 @@ export const actions: Actions = {
         // If it's a guest session, delete it from the database
         if (session.type === 'guest' && session.sessionId) {
           statements.deleteGuestSession.run(session.sessionId);
-          // Clear any guest-specific ephemeral data
           cookies.delete('guest_pantry', { path: '/' });
           cookies.delete('guest_favorites', { path: '/' });
         }

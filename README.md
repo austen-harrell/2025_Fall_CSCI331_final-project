@@ -42,6 +42,9 @@ npm run build
 This project includes a multi-stage Dockerfile for adapter-node.
 
 ```powershell
+# Stop container if one is running
+docker stop csci331-final; docker rm csci331-final
+
 # Build the image
 docker build -t csci331-final:latest .
 

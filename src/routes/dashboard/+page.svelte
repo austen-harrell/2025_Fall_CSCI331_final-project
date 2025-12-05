@@ -1,5 +1,4 @@
 <script lang="ts">
-  // simplified landing page script (no server data usage)
 </script>
 
 <section class="landing">

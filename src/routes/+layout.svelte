@@ -5,9 +5,6 @@
 
 	let { children } = $props();
 
-	// no JS needed for logout; form can submit directly
-
-	// Hide global layout on auth routes (login/signup)
 	const hideLayout = $derived(($page.url.pathname.startsWith('/login')) || ($page.url.pathname.startsWith('/signup')));
 </script>
 

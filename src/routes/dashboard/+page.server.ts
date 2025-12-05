@@ -15,7 +15,6 @@ export const load: PageServerLoad = async ({ cookies }) => {
     if (session.type === 'user') {
       const user = getUserById(session.userId);
       if (!user) {
-        // Invalid user session, redirect to login
         cookies.delete('session', { path: '/' });
         throw redirect(302, '/login');
       }
@@ -31,7 +30,6 @@ export const load: PageServerLoad = async ({ cookies }) => {
     } else if (session.type === 'guest') {
       const isValidGuestSession = validateGuestSession(session.sessionId);
       if (!isValidGuestSession) {
-        // Invalid guest session, redirect to login
         cookies.delete('session', { path: '/' });
         throw redirect(302, '/login');
       }
@@ -46,7 +44,6 @@ export const load: PageServerLoad = async ({ cookies }) => {
       };
     }
   } catch {
-    // Invalid session format, redirect to login
     cookies.delete('session', { path: '/' });
     throw redirect(302, '/login');
   }

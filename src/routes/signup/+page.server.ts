@@ -10,7 +10,6 @@ export const actions: Actions = {
     const password = data.get('password') as string;
     const confirmPassword = data.get('confirmPassword') as string;
 
-    // Validate input
     if (!email || !password || !confirmPassword) {
       return fail(400, {
         error: 'Email, password, and password confirmation are required',
@@ -48,10 +47,8 @@ export const actions: Actions = {
     }
 
     try {
-      // Create user
       const user = await createUser(email, password, username || undefined);
 
-      // Set session cookie
       cookies.set('session', JSON.stringify({
         userId: user.id,
         email: user.email,
@@ -59,16 +56,14 @@ export const actions: Actions = {
       }), {
         path: '/',
         httpOnly: true,
-        secure: false, // Set to true in production with HTTPS
+        secure: false,
         sameSite: 'strict',
         maxAge: 60 * 60 * 24 * 7 // 7 days
       });
 
-      // Redirect to dashboard
       throw redirect(302, '/dashboard');
 
     } catch (error: unknown) {
-      // If SvelteKit redirect was thrown, rethrow it (don't treat as an error)
       if (error && typeof error === 'object' && 'status' in error) {
         const status = (error as { status: number }).status;
         if (status >= 300 && status < 400) {

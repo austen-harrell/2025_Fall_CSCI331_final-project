@@ -11,8 +11,6 @@
     ingredients?: string[];
   };
 
-  // This page currently does not use server data
-
   let categories: string[] = [];
   let meals: Meal[] = [];
   let detailedMeals: FullMeal[] = [];
@@ -36,7 +34,7 @@
   let favoritesOnly = false;
   let selectedCategory: string = '';
   let selectedArea: string = '';
-  // Categories: use fetched categories list first, then augment from detailed meals
+
   $: categoryOptions = Array.from(
     new Set([
       ...categories,
@@ -130,7 +128,6 @@
       });
       if (res.ok) {
         if (willFav) favorites.add(id); else favorites.delete(id);
-        // Force Svelte reactivity by assigning a new Set instance
         favorites = new Set(favorites);
       }
     } catch {}
