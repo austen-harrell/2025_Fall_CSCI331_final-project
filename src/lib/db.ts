@@ -1,8 +1,10 @@
 import Database from 'better-sqlite3';
 import { dev } from '$app/environment';
 
-// Initialize database
-const db = new Database(dev ? 'app.db' : 'app_prod.db', { verbose: dev ? console.log : undefined });
+// Initialize database (configurable path via DB_PATH)
+const defaultPath = dev ? 'app.db' : 'app_prod.db';
+const dbPath = process.env.DB_PATH || defaultPath;
+const db = new Database(dbPath, { verbose: dev ? console.log : undefined });
 
 // Enable foreign keys
 db.pragma('foreign_keys = ON');
@@ -46,6 +48,21 @@ const createPantryItemsTable = `
   )
 `;
 db.exec(createPantryItemsTable);
+
+// Favorites per user (by external recipe id)
+const createFavoritesTable = `
+  CREATE TABLE IF NOT EXISTS favorites (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
+    recipe_id TEXT NOT NULL,
+    recipe_name TEXT,
+    thumb TEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(user_id, recipe_id),
+    FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
+  )
+`;
+db.exec(createFavoritesTable);
 
 // Prepared statements for better performance
 export const statements = {
@@ -110,6 +127,18 @@ export const statements = {
   removePantryItem: db.prepare(`
     DELETE FROM pantry_items WHERE id = ? AND user_id = ?
   `)
+  ,
+  // Favorite operations
+  addFavorite: db.prepare(`
+    INSERT OR IGNORE INTO favorites (user_id, recipe_id, recipe_name, thumb)
+    VALUES (?, ?, ?, ?)
+  `),
+  removeFavorite: db.prepare(`
+    DELETE FROM favorites WHERE user_id = ? AND recipe_id = ?
+  `),
+  getFavoritesByUser: db.prepare(`
+    SELECT recipe_id, recipe_name, thumb, created_at FROM favorites WHERE user_id = ? ORDER BY created_at DESC
+  `)
 };
 
 // Types
@@ -136,6 +165,15 @@ export interface PantryItem {
   ingredient: string;
   thumb?: string | null;
   created_at: string;
+}
+
+export interface FavoriteItem {
+  id?: number;
+  user_id?: number;
+  recipe_id: string;
+  recipe_name?: string | null;
+  thumb?: string | null;
+  created_at?: string;
 }
 
 export default db;

@@ -21,7 +21,6 @@
 		<a href="/dashboard" class="nav-link">Home</a>
 		<a href="/recipes" class="nav-link">Browse Recipes</a>
 		<a href="/pantry" class="nav-link">My Pantry</a>
-		<a href="/favorites" class="nav-link">Favorite Recipes</a>
 	</nav>
 	<div class="user-controls">
 		<div class="profile">

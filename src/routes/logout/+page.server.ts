@@ -14,6 +14,9 @@ export const actions: Actions = {
         // If it's a guest session, delete it from the database
         if (session.type === 'guest' && session.sessionId) {
           statements.deleteGuestSession.run(session.sessionId);
+          // Clear any guest-specific ephemeral data
+          cookies.delete('guest_pantry', { path: '/' });
+          cookies.delete('guest_favorites', { path: '/' });
         }
       } catch {
         // Invalid session format, just continue with logout

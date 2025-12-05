@@ -34,8 +34,8 @@ export const actions: Actions = {
       }), {
         path: '/',
         httpOnly: true,
-        secure: false, // Set to true in production with HTTPS
-        sameSite: 'strict',
+        secure: false, // Set to true in production with HTTPS or behind a proxy that terminates TLS
+        sameSite: 'lax',
         maxAge: 60 * 60 * 24 * 7 // 7 days
       });
 
@@ -67,8 +67,8 @@ export const actions: Actions = {
       }), {
         path: '/',
         httpOnly: true,
-        secure: false, // Set to true in production with HTTPS
-        sameSite: 'strict',
+        secure: false, // Set to true in production with HTTPS or behind a proxy that terminates TLS
+        sameSite: 'lax',
         maxAge: 60 * 60 * 24 * 7 // 7 days
       });
 

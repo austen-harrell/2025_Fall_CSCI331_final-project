@@ -20,8 +20,7 @@
 </script>
 
 <section class="page">
-  <h1>My Pantry</h1>
-  <p>Manage the ingredients you have on hand.</p>
+  <h1>Manage Your Pantry</h1>
 
   <div class="controls">
     <input class="search" placeholder="Search ingredients..." bind:value={filter} />
@@ -79,6 +78,23 @@
 
 <style>
   .page { max-width: 1000px; margin: 1.5rem auto; }
+  .page h1 {
+    font-size: clamp(1.75rem, 2.2vw + 1rem, 3rem);
+    line-height: 1.2;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+    color: #0f172a; /* slate-900 */
+    position: relative;
+  }
+  .page h1::after {
+    content: '';
+    display: block;
+    width: 72px;
+    height: 3px;
+    margin-top: 0.4rem;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #007acc, #00b4d8);
+  }
   .controls { margin: 1rem 0; }
   .search { width: 100%; max-width: 400px; padding: .5rem .75rem; border:1px solid #ddd; border-radius:6px; }
   .tables { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
