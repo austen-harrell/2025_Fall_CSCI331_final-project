@@ -1,0 +1,17 @@
+version: "3.9"
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: csci331-final:latest
+    container_name: csci331-final
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+      DB_PATH: /app/data/app_prod.db
+    volumes:
+      - ./data:/app/data
+    restart: unless-stopped
